@@ -322,11 +322,11 @@ int main()
         while (inGame == true) {
             drawLevel();
             Pac.newLevel();
+            Live();
             PlayerMovement();
             Pac.energyOff();
             
             Pac.Score(0);
-            Live();
             Blinky.Move(Pac);
             Sleep(250);
 
