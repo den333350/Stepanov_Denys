@@ -1,12 +1,15 @@
-#pragma once
 #include "Ghost.hpp"
+#ifndef PINKY_HPP
+#define PINKY_HPP
 
 
 class ClassPinky :public Ghost {
 public:
-	ClassPinky() {
-		Spawn();
+	ClassPinky(Render r) {
+		Spawn(r);
 	}
-	void Spawn();
-	void Movement(int x, int y, int dots, bool energy);
+	void Spawn(Render r);
+	void Movement(int dots, bool energy, GameMap m, Render r, Player pl);
 };
+
+#endif 

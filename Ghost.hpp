@@ -1,34 +1,37 @@
-#pragma once
-
 #include <vector>
 #include <cstring>
 
+#include "Player.hpp"
 #include "Render.hpp"
+#ifndef GHOST_HPP
+#define GHOST_HPP
 
 
-
-
-class Ghost:public Render {
+class Ghost {
 public:
     int x;
     int y;
     int directionX;
     int directionY;
-
-    int GhostMap[31][28];
-   
-    int px[31*28], py[31*28];
-    int lenght;
-
-    
-
-    void Move(bool energy, int color);
+    int ReturnPositionX();
+    int ReturnPositionY();
+    void Move(GameMap m, Render r, bool energy, int color);
     
 private:
+    
+    const int& Col = GAME_CONSTANTS::GAME_COL;
+    const int& Row = GAME_CONSTANTS::GAME_ROW;
 
-    void FillGhostMap();
+    int GhostMap[GAME_CONSTANTS::GAME_ROW][GAME_CONSTANTS::GAME_COL];
+
+    int px[GAME_CONSTANTS::TOTAL], py[GAME_CONSTANTS::TOTAL];
+    int lenght;
+
+    void FillGhostMap(GameMap m);
 
     void CreatePath();
 
-    void SelectRandDirection();
+    void SelectRandDirection(GameMap m);
+    
 };
+#endif

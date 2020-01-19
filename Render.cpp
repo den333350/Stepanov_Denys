@@ -1,13 +1,5 @@
 #include "Render.hpp"
 
-namespace RENDER_CONSTANTS {
-
-    const int SCREEN_COLUMS = 28;
-    const int SCREEN_ROWS = 36;
-
-    const int TEXT_WIDTH = 12;
-    const int TEXT_HEIGHT = 16;
-}
 
 void Render::GetHandle() {
     Handle = GetStdHandle(STD_OUTPUT_HANDLE);;
@@ -33,7 +25,7 @@ void Render::InitializeRender() {
     SetConsoleCursorInfo(Handle, &cursorInfo);
 
 
-    CONSOLE_FONT_INFOEX font = {};
+    CONSOLE_FONT_INFOEX font = {24,32};
     GetCurrentConsoleFontEx(Handle, false, &font);
     font.dwFontSize = { RENDER_CONSTANTS::TEXT_WIDTH, RENDER_CONSTANTS::TEXT_HEIGHT };
     font.cbSize = sizeof(font);
@@ -41,21 +33,21 @@ void Render::InitializeRender() {
     SetCurrentConsoleFontEx(Handle, false, &font);
 }
 
-void Render::drawLevel(int PlayerCordX, int PlayerCordY) {
-    EditMapSymbol(PlayerCordX, PlayerCordY, ' ');
-    for (int counter = 0; counter <= Total; ++counter) {
+void Render::drawLevel(GameMap &map, int px, int py) {
+    map.EditMapSymbol(px,py, ' ');
+    for (int counter = 0; counter <= map.Total; ++counter) {
         int x, y;
-        x = counter % Col;
-        y = counter % Row;
+        x = counter % map.Col;
+        y = counter % map.Row;
 
         gotoxy(x, y);
-        if (ReturnMapSymbol(x,y)==Wall) {
-            SetConsoleTextAttribute(Handle, 19);
-            std::cout << ReturnMapSymbol(x, y);
+        if (map.ReturnMapSymbol(x,y)==map.Wall) {
+            SetConsoleTextAttribute(Handle, 15);
+            std::cout << map.ReturnMapSymbol(x,y);
         }
-        if (ReturnMapSymbol(x, y) == '.' || ReturnMapSymbol(x, y) == '+') {
+        if (map.ReturnMapSymbol(x, y) == '.' || map.ReturnMapSymbol(x, y) == 'o') {
             SetConsoleTextAttribute(Handle, 12);
-            std::cout << ReturnMapSymbol(x, y);
+            std::cout << map.ReturnMapSymbol(x, y);
         }
     }
 }

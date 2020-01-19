@@ -1,17 +1,16 @@
 #include "Blinky.hpp"
 
-namespace BLINKY {
-	const int SPAWN_X = 13;
-	const int SPAWN_Y = 12;
-}
-void ClassBlinky::Spawn() {
+
+void ClassBlinky::Spawn(Render r) {
+	r.gotoxy(x, y);
+	std::cout << ' ';
 	x = BLINKY::SPAWN_X;
 	y = BLINKY::SPAWN_Y;
 
 }
 
-void ClassBlinky::Movement(int x, int y, bool energy) {
+void ClassBlinky::Movement(int x,int y, GameMap m, Render r, bool energy) {
 	directionX = x;
 	directionY = y;
-	/*Move(energy, 4);*/
+	Move(m,r,energy, 4);
 }

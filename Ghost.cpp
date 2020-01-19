@@ -1,9 +1,10 @@
 #include "Ghost.hpp"
 
-void Ghost::FillGhostMap() {
+void Ghost::FillGhostMap(GameMap m) {
+    
     for (int x = 0; x < Col; x++) {
         for (int y = 0; y < Row; y++) {
-            if (ReturnMapSymbol(x,y) == Wall) {
+            if (m.ReturnMapSymbol(x,y) == m.Wall) {
                 GhostMap[y][x] = -1;
             }
             else GhostMap[y][x] = -5;
@@ -64,25 +65,25 @@ void Ghost::CreatePath() {
 
 }
 
-void Ghost::SelectRandDirection() {
+void Ghost::SelectRandDirection(GameMap m) {
     switch (rand() % 4) {
     case 1:
-        if (ReturnMapSymbol(x-1,y) != Wall) {
+        if (m.ReturnMapSymbol(x-1,y) != m.Wall) {
             x--;
         }
         break;
     case 2:
-        if (ReturnMapSymbol(x + 1, y) != Wall) {
+        if (m.ReturnMapSymbol(x + 1, y) != m.Wall) {
             x++;
         }
         break;
     case 3:
-        if (ReturnMapSymbol(x , y - 1)!= Wall) {
+        if (m.ReturnMapSymbol(x , y - 1)!= m.Wall) {
             y--;
         }
         break;
     case 4:
-        if (ReturnMapSymbol(x , y+1) != Wall) {
+        if (m.ReturnMapSymbol(x , y+1) != m.Wall) {
             y++;
         }
         break;
@@ -91,16 +92,16 @@ void Ghost::SelectRandDirection() {
 
 }
 
-void Ghost::Move(bool energy, int color) {
-    gotoxy(x, y);
+void Ghost::Move(GameMap m,Render r,bool energy, int color) {
+    r.gotoxy(x, y);
     std::cout << ' ';
     if (energy == true) {
-        SetConsoleTextAttribute(Handle, 11);
-        SelectRandDirection();
+        SetConsoleTextAttribute(r.Handle, 11);
+        SelectRandDirection(m);
     }
     else {
-        SetConsoleTextAttribute(Handle, color);
-        FillGhostMap();
+        SetConsoleTextAttribute(r.Handle, color);
+        FillGhostMap(m);
         CreatePath();
         if (px[1] > 0 && px[1] < 27 && py[1] > 0 && py[1] < 31) {
 
@@ -108,6 +109,14 @@ void Ghost::Move(bool energy, int color) {
             y = py[1];
         }
     }
-    gotoxy(x, y);
+    r.gotoxy(x, y);
     std::cout << 'M';
+}
+
+int Ghost::ReturnPositionX()
+{
+    return x;
+}
+int Ghost::ReturnPositionY() {
+    return y;
 }
